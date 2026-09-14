@@ -1,0 +1,35 @@
+# 项目地图
+
+## 根目录
+
+| 路径                           | 说明                                                               |
+|--------------------------------|--------------------------------------------------------------------|
+| `app.go`                       | 应用运行入口、全局 Server 和生命周期编排                           |
+| `config.go`                    | `core/config` 到应用运行参数的映射与校验                           |
+| `database.go`                  | 默认数据库初始化和全局访问                                         |
+| `registry.go`                  | 迁移、初始化、gRPC、Gateway、额外 HTTP 路由和 Server Option 注册表 |
+| `README.md`                    | 公开 API、配置约定和接入示例                                       |
+| `Makefile`                     | 依赖整理、构建、静态检查和测试入口                                 |
+| `.github/workflows/golang.yml` | Go 模块持续集成与标签发布流程                                      |
+
+## 初始化顺序
+
+1. 业务入口按需导入数据库驱动，业务包通过 `init` 调用 `Register*` 登记声明。
+2. `Run` 从 `core/config` 读取统一配置并初始化日志。
+3. `Run` 打开数据库并设置进程级 `DB`。
+4. `lifex.Init` 依次执行数据库迁移和业务初始化。
+5. `standard.Server` 注册 gRPC、Gateway 和额外 HTTP 路由后开始监听。
+6. `lifex.Wait` 等待退出信号，并按逆序停止 Server、关闭数据库及日志。
+
+## 依赖边界
+
+```text
+业务项目
+  └── go-sdk/app
+        ├── go-sdk/core
+        ├── go-sdk/database
+        └── go-sdk/server
+```
+
+`app` 是有意保持强约定的集成层。底层 SDK 继续独立演进，业务项目只负责 Model、
+Service、Route、Proto 和迁移等领域实现，不再重复复制基础设施初始化代码。
