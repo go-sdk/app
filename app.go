@@ -1,4 +1,3 @@
-// Package app 提供 core、database 和 server 的约定式应用运行时。
 package app
 
 import (
