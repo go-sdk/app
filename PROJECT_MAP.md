@@ -8,6 +8,8 @@
 | `config.go`                    | `core/config` 到应用运行参数的映射与校验                           |
 | `database.go`                  | 默认数据库初始化和全局访问                                         |
 | `registry.go`                  | 迁移、初始化、gRPC、Gateway、额外 HTTP 路由和 Server Option 注册表 |
+| `internal/appstate/`           | 生产运行时与测试 helper 共享的进程级数据库状态                     |
+| `testapp/`                     | 测试数据库初始化、Model 迁移和自动清理                             |
 | `README.md`                    | 公开 API、配置约定和接入示例                                       |
 | `Makefile`                     | 依赖整理、构建、静态检查和测试入口                                 |
 | `.github/workflows/golang.yml` | Go 模块持续集成与标签发布流程                                      |
@@ -33,3 +35,6 @@
 
 `app` 是有意保持强约定的集成层。底层 SDK 继续独立演进，业务项目只负责 Model、
 Service、Route、Proto 和迁移等领域实现，不再重复复制基础设施初始化代码。
+
+Model、Service 和额外 HTTP Handler 测试可以先使用 `testapp.NewDB` 按调用方指定的驱动和
+DSN 初始化测试数据库，再分别直接使用 `standard/testserver.New` 或 `NewHTTP` 验证对应调用链。

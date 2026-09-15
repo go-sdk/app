@@ -39,7 +39,7 @@ func Run() error {
 
 	logx.Init(config.MustGet("log.file.path", ""))
 	defer logx.Close()
-	logx.SetGlobalKV("service", value.name)
+	logx.SetGlobalKV("service", value.App.Name)
 	logx.SetGlobalKV("version", osx.GetVersion().Version)
 
 	db, err := openDatabase(value)
@@ -99,13 +99,13 @@ func registerInitializers(db *dbx.DB, registered registrationSnapshot) error {
 
 func serverOptions(value settings, registered registrationSnapshot) ([]standard.Option, error) {
 	options := []standard.Option{
-		standard.WithName(value.name),
-		standard.WithAddress(value.serverAddress),
+		standard.WithName(value.App.Name),
+		standard.WithAddress(value.Server.Address),
 	}
-	if value.jwtSecret != "" {
-		options = append(options, standard.WithJWTSecret([]byte(value.jwtSecret)))
+	if value.Auth.JWTSecret != "" {
+		options = append(options, standard.WithJWTSecret([]byte(value.Auth.JWTSecret)))
 	}
-	if value.serverReflection {
+	if value.Server.Reflection {
 		options = append(options, standard.WithReflection())
 	}
 	if len(registered.grpcRegisters) > 0 {

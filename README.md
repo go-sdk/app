@@ -18,6 +18,9 @@ go get github.com/go-sdk/app
 `app` 直接使用 `core/config` 的默认实例，因此同时支持可执行文件旁的 YAML/JSON 配置、
 `CONFIG_PATH` 和 `APP__` 环境变量覆盖。
 
+运行参数通过一个内部配置结构及 `config.DecodeTo` 一次性加载。新增 app 级配置时只需扩展
+该结构、默认值和校验，不需要为每个字段维护独立的 `Get` 调用。
+
 | 配置键              | 默认值           | 说明                             |
 |---------------------|------------------|----------------------------------|
 | `app.name`          | 当前可执行文件名 | 日志和 Server 的服务标识         |
@@ -129,6 +132,28 @@ func init() {
 ```
 
 普通 JSON API 不应绕过 Proto 和生成的 Gateway 绑定。
+
+## 单元测试
+
+使用 `app.DB()` 的 Model、Service 或额外 HTTP Handler 测试可以通过 `testapp.NewDB` 使用
+调用方指定的驱动和 DSN 创建测试数据库，并迁移所需 Model：
+
+```go
+func TestCreateUser(t *testing.T) {
+	testapp.NewDB(t, testDriver, testDSN, &User{}, &Role{}, &UserRole{})
+
+	if err := CreateUser(context.Background(), &User{Username: "tester"}); err != nil {
+		t.Fatal(err)
+	}
+}
+```
+
+具体数据库驱动必须由测试项目按需导入并注册。helper 会在测试结束时移除全局数据库并
+关闭连接，但不会创建或删除测试数据库本身；使用共享测试库时应由调用方保证数据隔离。
+由于 `app.DB()` 是进程级状态，使用该 helper 的测试不得调用 `t.Parallel()`。Service 的
+gRPC 链路继续直接使用 `standard/testserver.New`，额外 HTTP 接口使用
+`standard/testserver.NewHTTP`；app 不再重复包装 Server 测试能力，也不在单元测试中执行
+已注册的生产迁移和 Bootstrap。
 
 ## 生命周期约束
 

@@ -3,9 +3,9 @@ module github.com/go-sdk/app
 go 1.27.0
 
 require (
-	github.com/go-sdk/core v1.4.2
+	github.com/go-sdk/core v1.4.5
 	github.com/go-sdk/database v1.0.4
-	github.com/go-sdk/server v1.3.1
+	github.com/go-sdk/server v1.3.3
 )
 
 require (
@@ -15,8 +15,11 @@ require (
 	cel.dev/expr v0.25.3 // indirect
 	github.com/BurntSushi/toml v1.6.0 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
+	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/elastic/gmux v0.3.3 // indirect
 	github.com/fsnotify/fsnotify v1.10.1 // indirect
+	github.com/glebarez/go-sqlite v1.23.0 // indirect
+	github.com/glebarez/sqlite v1.11.0 // indirect
 	github.com/go-gormigrate/gormigrate/v2 v2.1.6 // indirect
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
@@ -27,7 +30,9 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/mattn/go-colorable v0.1.15 // indirect
 	github.com/mattn/go-isatty v0.0.24 // indirect
+	github.com/ncruces/go-strftime v1.0.0 // indirect
 	github.com/nicksnyder/go-i18n/v2 v2.6.1 // indirect
+	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/rotisserie/eris v0.5.4 // indirect
 	github.com/rs/zerolog v1.35.1 // indirect
 	github.com/samber/lo v1.53.0 // indirect
@@ -49,4 +54,8 @@ require (
 	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gorm.io/gorm v1.31.2 // indirect
+	modernc.org/libc v1.75.7 // indirect
+	modernc.org/mathutil v1.7.1 // indirect
+	modernc.org/memory v1.12.1 // indirect
+	modernc.org/sqlite v1.58.0 // indirect
 )
