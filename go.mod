@@ -3,9 +3,9 @@ module github.com/go-sdk/app
 go 1.27.0
 
 require (
-	github.com/go-sdk/core v1.4.5
-	github.com/go-sdk/database v1.0.4
-	github.com/go-sdk/server v1.3.3
+	github.com/go-sdk/core v1.4.6
+	github.com/go-sdk/database v1.0.7
+	github.com/go-sdk/server v1.3.5
 )
 
 require (
@@ -20,7 +20,7 @@ require (
 	github.com/fsnotify/fsnotify v1.10.1 // indirect
 	github.com/glebarez/go-sqlite v1.23.0 // indirect
 	github.com/glebarez/sqlite v1.11.0 // indirect
-	github.com/go-gormigrate/gormigrate/v2 v2.1.6 // indirect
+	github.com/go-gormigrate/gormigrate/v2 v2.1.7 // indirect
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
@@ -54,8 +54,8 @@ require (
 	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gorm.io/gorm v1.31.2 // indirect
-	modernc.org/libc v1.75.7 // indirect
+	modernc.org/libc v1.76.0 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.12.1 // indirect
-	modernc.org/sqlite v1.58.0 // indirect
+	modernc.org/sqlite v1.59.0 // indirect
 )
