@@ -45,6 +45,9 @@ func Run() error {
 	if err != nil {
 		return errx.Wrap(err, "initialize database")
 	}
+	if err = openRedis(value); err != nil {
+		return shutdown(errx.Wrap(err, "initialize redis"))
+	}
 	if err = registerInitializers(db, registered); err != nil {
 		return shutdown(err)
 	}

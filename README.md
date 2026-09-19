@@ -1,7 +1,7 @@
 # app
 
 `github.com/go-sdk/app` 是 `core`、`database` 和 `server` 的约定式集成层。它统一读取
-默认配置、初始化数据库、执行迁移和业务初始化、创建 gRPC/Gateway Server，并通过
+默认配置、初始化数据库和可选 Redis、执行迁移和业务初始化、创建 gRPC/Gateway Server，并通过
 `lifex` 管理完整生命周期。
 
 这个模块有意保持强耦合和较少配置，适合采用同一套技术栈的新项目。需要单独替换配置、
@@ -26,6 +26,11 @@ go get github.com/go-sdk/app
 | `app.name`          | 当前可执行文件名 | 日志和 Server 的服务标识         |
 | `database.driver`   | `postgres`       | `mysql`、`postgres` 或 `sqlite`  |
 | `database.dsn`      | 无               | 必填的原生驱动 DSN，不会写入日志 |
+| `redis.enabled`     | `false`          | 是否初始化进程级 Redis 客户端    |
+| `redis.mode`        | `standalone`     | `standalone` 或 `sentinel`       |
+| `redis.addresses`   | `127.0.0.1:6379` | Redis 或 Sentinel 地址列表       |
+| `redis.master_name` | 空               | Sentinel 模式的 master 名称      |
+| `redis.database`    | `0`              | Redis 数据库编号                 |
 | `server.address`    | `:8080`          | gRPC 与 HTTP 共用的监听地址      |
 | `server.reflection` | `false`          | 是否启用 gRPC Reflection         |
 | `auth.jwt_secret`   | 空               | 非空时启用标准 JWT 鉴权          |
@@ -33,6 +38,11 @@ go get github.com/go-sdk/app
 
 连接池继续使用 `database` 模块已有的 `database.pool.*` 或
 `database.<driver>.pool.*` 配置，不在本模块重复定义。
+
+Redis 可继续配置 `username`、`password`、`sentinel_username`、`sentinel_password`、
+`client_name`、连接超时、连接池和 TLS 参数，字段与 `database/rdx.Config` 一致。配置中的地址和
+凭据不会写入初始化日志。启用后可通过 `app.Redis()` 获取客户端；初始化会先执行 `PING`，失败时
+阻止 Server 启动。Sentinel 锁仍需配合业务数据库 fencing token 使用。
 
 ## 最小入口
 
@@ -158,6 +168,7 @@ gRPC 链路继续直接使用 `standard/testserver.New`，额外 HTTP 接口使�
 ## 生命周期约束
 
 - 所有 `Register*` 必须在 `Run` 前完成，`Run` 后继续注册会 panic。
-- `DB` 和 `Server` 只在 `Run` 初始化过程中及之后可用，不得在业务包 `init` 中访问。
+- `DB`、`Redis` 和 `Server` 只在 `Run` 初始化过程中及之后可用，不得在业务包 `init` 中访问；
+  `Redis` 还要求 `redis.enabled=true`。
 - `Run` 是进程级单次入口，不支持停止后再次启动。
 - 初始化失败会触发已登记资源的逆序清理；信号退出和主动退出由 `lifex` 统一处理。

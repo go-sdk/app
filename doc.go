@@ -1,6 +1,6 @@
 // Package app 是 core、database 和 server 的约定式集成层，提供应用运行时。
-// 它统一读取默认配置、初始化数据库、执行迁移和业务初始化、创建 gRPC/Gateway
-// Server，并通过 lifex 管理完整生命周期。
+// 它统一读取默认配置、初始化数据库和可选 Redis、执行迁移和业务初始化、创建
+// gRPC/Gateway Server，并通过 lifex 管理完整生命周期。
 //
 // 最小入口只需在业务包的 init 中登记声明，然后调用 app.Main：
 //
