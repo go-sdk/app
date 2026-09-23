@@ -4,7 +4,7 @@ go 1.27.0
 
 require (
 	github.com/go-sdk/core v1.5.1
-	github.com/go-sdk/database v1.1.0
+	github.com/go-sdk/database v1.1.1
 	github.com/go-sdk/server v1.3.5
 )
 
