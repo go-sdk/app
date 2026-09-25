@@ -1,8 +1,8 @@
 # app
 
-`github.com/go-sdk/app` 是 `core`、`database` 和 `server` 的约定式集成层。它统一读取
-默认配置、初始化数据库和可选 Redis、执行迁移和业务初始化、创建 gRPC/Gateway Server，并通过
-`lifex` 管理完整生命周期。
+`github.com/go-sdk/app` 是 `core`、`database`、`server` 和 `taskkit` 的约定式集成层。它统一读取
+默认配置、初始化数据库和可选 Redis、执行迁移和业务初始化、按需创建 Task Manager、创建
+gRPC/Gateway Server，并通过 `lifex` 管理完整生命周期。
 
 这个模块有意保持强耦合和较少配置，适合采用同一套技术栈的新项目。需要单独替换配置、
 数据库或 Server 生命周期时，应直接组合底层 SDK，而不是在 `app` 中增加兼容层。
@@ -143,6 +143,48 @@ func init() {
 
 普通 JSON API 不应绕过 Proto 和生成的 Gateway 绑定。
 
+## 定时任务
+
+业务包通过 `RegisterTask` 声明任务。`app` 只在存在任务声明时创建进程级 Task Manager，
+并保证任务在数据库迁移和全部 Bootstrap 完成后、Server 启动前生效：
+
+```go
+func init() {
+	app.RegisterTask(
+		"certificate-renewal",
+		taskkit.Cron("0 */6 * * *"),
+		func(ctx *taskkit.Context) error {
+			return renew(ctx)
+		},
+		taskkit.WithSingleton(),
+	)
+}
+```
+
+运行期间可以通过 `app.TaskManager()` 查询、更新、立即执行或移除任务。没有登记任何任务时，
+该方法会 panic，应用也不会创建空调度器。
+
+Task Manager Option 需要访问已经初始化的 Redis 等运行时资源时，通过工厂登记。Redis 分布式
+锁不会因为 `redis.enabled=true` 而自动启用，必须由业务显式选择并设置不会与其他应用冲突的
+键前缀：
+
+```go
+func init() {
+	app.RegisterTaskManagerOptionFactories(func() (taskkit.ManagerOption, error) {
+		locker, err := taskrdx.New(app.Redis(), taskrdx.Config{
+			KeyPrefix: "certops:tasks:",
+		})
+		if err != nil {
+			return nil, err
+		}
+		return taskkit.WithLocker(locker), nil
+	})
+}
+```
+
+任务定义仍只保存在进程内，Redis 锁也不提供 exactly-once。需要持久化调度、可视化管理或
+不可重复副作用保护时，应分别设计 handler 注册与同步协议，并继续使用业务幂等和 fencing token。
+
 ## 单元测试
 
 使用 `app.DB()` 的 Model、Service 或额外 HTTP Handler 测试可以通过 `testapp.NewDB` 使用
@@ -171,4 +213,5 @@ gRPC 链路继续直接使用 `standard/testserver.New`，额外 HTTP 接口使�
 - `DB`、`Redis` 和 `Server` 只在 `Run` 初始化过程中及之后可用，不得在业务包 `init` 中访问；
   `Redis` 还要求 `redis.enabled=true`。
 - `Run` 是进程级单次入口，不支持停止后再次启动。
+- `TaskManager` 只在登记任务后的运行期可用，不得在包初始化、迁移或 Bootstrap 中访问。
 - 初始化失败会触发已登记资源的逆序清理；信号退出和主动退出由 `lifex` 统一处理。

@@ -27,7 +27,7 @@ func Server() *standard.Server {
 	return server
 }
 
-// Run 按固定顺序初始化数据库、迁移、业务数据和 Server，并等待应用退出。
+// Run 按固定顺序初始化数据库、迁移、业务数据、Task Manager 和 Server，并等待应用退出。
 // 每个进程只能调用一次；所有 Register 调用必须先于 Run 完成。
 func Run() error {
 	registered := registry.freeze()
@@ -51,6 +51,7 @@ func Run() error {
 	if err = registerInitializers(db, registered); err != nil {
 		return shutdown(err)
 	}
+	registerTaskInitializer(registered)
 
 	options, err := serverOptions(value, registered)
 	if err != nil {

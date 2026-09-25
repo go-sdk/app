@@ -12,7 +12,7 @@
 
 ## 项目定位
 
-- 本仓库是 `go-sdk/core`、`go-sdk/database` 和 `go-sdk/server` 的应用集成层。
+- 本仓库是 `go-sdk/core`、`go-sdk/database`、`go-sdk/server` 和 `go-sdk/taskkit` 的应用集成层。
 - 包初始化只登记声明，不连接数据库、不执行迁移、不监听端口。
 - `Run` 统一完成日志、数据库、迁移、业务初始化和服务生命周期。
 - 本仓库提供约定和组合，不复制下层 SDK 已有能力。

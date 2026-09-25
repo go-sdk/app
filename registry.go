@@ -12,6 +12,7 @@ import (
 	"github.com/go-sdk/database/dbx"
 	"github.com/go-sdk/database/dbx/migrate"
 	"github.com/go-sdk/server/standard"
+	"github.com/go-sdk/taskkit"
 )
 
 // BootstrapFunc 在数据库迁移完成后、Server 启动前执行一次业务初始化。
@@ -21,10 +22,20 @@ type BootstrapFunc func(context.Context, *dbx.DB) error
 // 需要访问 DB 的鉴权拦截器等组件应通过该工厂注册。
 type ServerOptionFactory func() (standard.Option, error)
 
+// TaskManagerOptionFactory 在 Redis 等运行时资源初始化后创建 Task Manager Option。
+type TaskManagerOptionFactory func() (taskkit.ManagerOption, error)
+
 type route struct {
 	method  string
 	path    string
 	handler standard.HandlerFunc
+}
+
+type registeredTask struct {
+	id       string
+	schedule taskkit.Schedule
+	task     taskkit.Task
+	options  []taskkit.JobOption
 }
 
 type registrations struct {
@@ -38,6 +49,8 @@ type registrations struct {
 	routes                []route
 	serverOptions         []standard.Option
 	serverOptionFactories []ServerOptionFactory
+	tasks                 []registeredTask
+	taskOptionFactories   []TaskManagerOptionFactory
 }
 
 type registrationSnapshot struct {
@@ -49,6 +62,8 @@ type registrationSnapshot struct {
 	routes                []route
 	serverOptions         []standard.Option
 	serverOptionFactories []ServerOptionFactory
+	tasks                 []registeredTask
+	taskOptionFactories   []TaskManagerOptionFactory
 }
 
 var registry registrations
@@ -115,6 +130,25 @@ func RegisterServerOptionFactories(factories ...ServerOptionFactory) {
 	})
 }
 
+// RegisterTask 登记在迁移和业务初始化完成后启动的定时任务。
+func RegisterTask(id string, schedule taskkit.Schedule, task taskkit.Task, options ...taskkit.JobOption) {
+	registry.withMutable(func() {
+		registry.tasks = append(registry.tasks, registeredTask{
+			id:       id,
+			schedule: schedule,
+			task:     task,
+			options:  slices.Clone(options),
+		})
+	})
+}
+
+// RegisterTaskManagerOptionFactories 登记依赖运行时资源的 Task Manager Option 工厂。
+func RegisterTaskManagerOptionFactories(factories ...TaskManagerOptionFactory) {
+	registry.withMutable(func() {
+		registry.taskOptionFactories = append(registry.taskOptionFactories, factories...)
+	})
+}
+
 func (r *registrations) withMutable(update func()) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
@@ -131,6 +165,10 @@ func (r *registrations) freeze() registrationSnapshot {
 		osx.Panic("app: Run can only be called once")
 	}
 	r.frozen = true
+	tasks := slices.Clone(r.tasks)
+	for index := range tasks {
+		tasks[index].options = slices.Clone(tasks[index].options)
+	}
 	return registrationSnapshot{
 		migrations:            slices.Clone(r.migrations),
 		migrationOptions:      slices.Clone(r.migrationOptions),
@@ -140,5 +178,7 @@ func (r *registrations) freeze() registrationSnapshot {
 		routes:                slices.Clone(r.routes),
 		serverOptions:         slices.Clone(r.serverOptions),
 		serverOptionFactories: slices.Clone(r.serverOptionFactories),
+		tasks:                 tasks,
+		taskOptionFactories:   slices.Clone(r.taskOptionFactories),
 	}
 }
