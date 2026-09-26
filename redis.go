@@ -22,7 +22,7 @@ func openRedis(value settings) error {
 	if !value.Redis.Enabled {
 		return nil
 	}
-	client, err := rdx.Open(context.Background(), value.Redis.config())
+	client, err := rdx.Open(context.Background(), value.Redis.Config)
 	if err != nil {
 		return err
 	}

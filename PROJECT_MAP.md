@@ -2,19 +2,19 @@
 
 ## 根目录
 
-| 路径                           | 说明                                                               |
-|--------------------------------|--------------------------------------------------------------------|
-| `app.go`                       | 应用运行入口、全局 Server 和生命周期编排                           |
-| `config.go`                    | `core/config` 到应用运行参数的映射与校验                           |
-| `database.go`                  | 默认数据库初始化和全局访问                                         |
-| `redis.go`                     | 可选 Redis 初始化和全局访问                                        |
-| `registry.go`                  | 迁移、初始化、任务、服务和运行期 Option 注册表                     |
-| `task.go`                      | 按需初始化和访问进程级 Task Manager                                |
-| `internal/appstate/`           | 生产运行时与测试 helper 共享的进程级数据库和 Redis 状态            |
-| `testapp/`                     | 测试数据库初始化、Model 迁移和自动清理                             |
-| `README.md`                    | 公开 API、配置约定和接入示例                                       |
-| `Makefile`                     | 依赖整理、构建、静态检查和测试入口                                 |
-| `.github/workflows/golang.yml` | Go 模块持续集成与标签发布流程                                      |
+| 路径                           | 说明                                                                  |
+|--------------------------------|-----------------------------------------------------------------------|
+| `app.go`                       | 应用运行入口、全局 Server 和生命周期编排                              |
+| `config.go`                    | `core/config` 到应用运行参数的映射与校验，Redis 参数复用 `rdx.Config` |
+| `database.go`                  | 默认数据库初始化和全局访问                                            |
+| `redis.go`                     | 可选 Redis 初始化和全局访问                                           |
+| `registry.go`                  | 迁移、初始化、任务、服务和运行期 Option 注册表                        |
+| `task.go`                      | 按需初始化和访问进程级 Task Manager                                   |
+| `internal/appstate/`           | 生产运行时与测试 helper 共享的进程级数据库和 Redis 状态               |
+| `testapp/`                     | 测试数据库初始化、Model 迁移和自动清理                                |
+| `README.md`                    | 公开 API、配置约定和接入示例                                          |
+| `Makefile`                     | 依赖整理、构建、静态检查和测试入口                                    |
+| `.github/workflows/golang.yml` | Go 模块持续集成与标签发布流程                                         |
 
 ## 初始化顺序
 
