@@ -27,7 +27,8 @@ type databaseSettings struct {
 }
 
 type redisSettings struct {
-	Enabled    bool `json:"enabled"`
+	Enabled bool `json:"enabled"`
+	//nolint:staticcheck // mapstructure 复用 json 标签并通过 squash 展开 Redis 配置。
 	rdx.Config `json:",squash"`
 }
 
@@ -64,8 +65,8 @@ func loadSettings() (settings, error) {
 	value.App.Name = strings.TrimSpace(value.App.Name)
 	value.Database.Driver = strings.TrimSpace(value.Database.Driver)
 	value.Database.DSN = strings.TrimSpace(value.Database.DSN)
-	value.Redis.Config.MasterName = strings.TrimSpace(value.Redis.Config.MasterName)
-	value.Redis.Config.ClientName = strings.TrimSpace(value.Redis.Config.ClientName)
+	value.Redis.MasterName = strings.TrimSpace(value.Redis.MasterName)
+	value.Redis.ClientName = strings.TrimSpace(value.Redis.ClientName)
 	value.Server.Address = strings.TrimSpace(value.Server.Address)
 	if value.App.Name == "" {
 		return settings{}, errx.New("app name must not be empty")
