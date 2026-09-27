@@ -3,10 +3,10 @@ module github.com/go-sdk/app
 go 1.27.0
 
 require (
-	github.com/go-sdk/core v1.5.5
-	github.com/go-sdk/database v1.1.2
-	github.com/go-sdk/server v1.4.3
-	github.com/go-sdk/taskkit v1.0.1
+	github.com/go-sdk/core v1.6.1
+	github.com/go-sdk/database v1.2.1
+	github.com/go-sdk/server v1.5.0
+	github.com/go-sdk/taskkit v1.1.0
 )
 
 require (
@@ -20,18 +20,23 @@ require (
 	github.com/dustin/go-humanize v1.1.0 // indirect
 	github.com/elastic/gmux v0.3.3 // indirect
 	github.com/fsnotify/fsnotify v1.10.1 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.15 // indirect
 	github.com/glebarez/go-sqlite v1.23.0 // indirect
 	github.com/glebarez/sqlite v1.11.0 // indirect
 	github.com/go-co-op/gocron/v2 v2.22.0 // indirect
 	github.com/go-gormigrate/gormigrate/v2 v2.1.7 // indirect
+	github.com/go-playground/locales v0.14.1 // indirect
+	github.com/go-playground/universal-translator v0.18.2 // indirect
+	github.com/go-playground/validator/v10 v10.30.5 // indirect
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.4 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.30.0 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.31.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/jonboulle/clockwork v0.5.0 // indirect
+	github.com/leodido/go-urn v1.5.0 // indirect
 	github.com/mattn/go-colorable v0.1.15 // indirect
 	github.com/mattn/go-isatty v0.0.24 // indirect
 	github.com/ncruces/go-strftime v1.0.0 // indirect
@@ -51,6 +56,7 @@ require (
 	github.com/tidwall/pretty v1.2.1 // indirect
 	go.uber.org/atomic v1.12.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
+	golang.org/x/crypto v0.57.0 // indirect
 	golang.org/x/exp v0.0.0-20260908205506-85c1c2202aba // indirect
 	golang.org/x/net v0.59.0 // indirect
 	golang.org/x/sys v0.48.0 // indirect
