@@ -13,6 +13,7 @@ import (
 	"github.com/go-sdk/core/osx"
 	"github.com/go-sdk/database/dbx"
 	"github.com/go-sdk/database/dbx/migrate"
+	"github.com/go-sdk/server/jwtx"
 	"github.com/go-sdk/server/standard"
 )
 
@@ -105,7 +106,13 @@ func serverOptions(value settings, registered registrationSnapshot) ([]standard.
 		standard.WithName(value.App.Name),
 		standard.WithAddress(value.Server.Address),
 	}
-	if value.Auth.JWTSecret != "" {
+	if value.Auth.JWTPrivateKey != "" {
+		codec, err := jwtx.Ed25519(value.Auth.JWTPrivateKey)
+		if err != nil {
+			return nil, errx.Wrap(err, "configure jwt ed25519")
+		}
+		options = append(options, standard.WithJWTAuth(codec.Parser))
+	} else if value.Auth.JWTSecret != "" {
 		options = append(options, standard.WithJWTSecret([]byte(value.Auth.JWTSecret)))
 	}
 	if value.Server.Reflection {

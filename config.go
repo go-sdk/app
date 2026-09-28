@@ -38,7 +38,8 @@ type serverSettings struct {
 }
 
 type authSettings struct {
-	JWTSecret string `json:"jwt_secret"`
+	JWTSecret     string `json:"jwt_secret"`
+	JWTPrivateKey string `json:"jwt_private_key"`
 }
 
 func loadSettings() (settings, error) {

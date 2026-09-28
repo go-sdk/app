@@ -1,6 +1,10 @@
 package app
 
 import (
+	"crypto/ed25519"
+	"crypto/rand"
+	"crypto/x509"
+	"encoding/pem"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -49,6 +53,7 @@ server:
   reflection: true
 auth:
   jwt_secret: secret
+  jwt_private_key: private-key
 `)
 	value, err := loadSettings()
 	if err != nil {
@@ -57,7 +62,8 @@ auth:
 	if value.App.Name != "example" || value.Database.Driver != "sqlite" || value.Database.DSN != "test.db" {
 		t.Fatalf("unexpected settings: %#v", value)
 	}
-	if value.Server.Address != ":9000" || !value.Server.Reflection || value.Auth.JWTSecret != "secret" {
+	if value.Server.Address != ":9000" || !value.Server.Reflection ||
+		value.Auth.JWTSecret != "secret" || value.Auth.JWTPrivateKey != "private-key" {
 		t.Fatalf("unexpected settings: %#v", value)
 	}
 	expectedRedis := rdx.Config{
@@ -101,6 +107,47 @@ database:
 	}
 	if value.App.Name == "" || value.Database.Driver != "postgres" || value.Server.Address != ":8080" {
 		t.Fatalf("unexpected default settings: %#v", value)
+	}
+}
+
+func TestServerOptionsUsesJWTPrivateKey(t *testing.T) {
+	_, privateKey, err := ed25519.GenerateKey(rand.Reader)
+	if err != nil {
+		t.Fatal(err)
+	}
+	der, err := x509.MarshalPKCS8PrivateKey(privateKey)
+	if err != nil {
+		t.Fatal(err)
+	}
+	privateKeyPEM := pem.EncodeToMemory(&pem.Block{Type: "PRIVATE KEY", Bytes: der})
+	value := settings{
+		App:    appSettings{Name: "example"},
+		Server: serverSettings{Address: ":8080"},
+		Auth: authSettings{
+			JWTSecret:     "secret",
+			JWTPrivateKey: string(privateKeyPEM),
+		},
+	}
+	options, err := serverOptions(value, registrationSnapshot{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(options) != 3 {
+		t.Fatalf("unexpected server option count: %d", len(options))
+	}
+}
+
+func TestServerOptionsDoesNotFallBackFromInvalidJWTPrivateKey(t *testing.T) {
+	value := settings{
+		App:    appSettings{Name: "example"},
+		Server: serverSettings{Address: ":8080"},
+		Auth: authSettings{
+			JWTSecret:     "secret",
+			JWTPrivateKey: "invalid",
+		},
+	}
+	if _, err := serverOptions(value, registrationSnapshot{}); err == nil {
+		t.Fatal("expected invalid jwt private key error")
 	}
 }
 

@@ -41,5 +41,8 @@
 `app` 是有意保持强约定的集成层。底层 SDK 继续独立演进，业务项目只负责 Model、
 Service、Route、Proto 和迁移等领域实现，不再重复复制基础设施初始化代码。
 
+标准 JWT 鉴权由 `auth` 配置装配：`jwt_private_key` 非空时优先使用 Ed25519，
+否则由 `jwt_secret` 保持 HS256 兼容行为。
+
 Model、Service 和额外 HTTP Handler 测试可以先使用 `testapp.NewDB` 按调用方指定的驱动和
 DSN 初始化测试数据库，再分别直接使用 `standard/testserver.New` 或 `NewHTTP` 验证对应调用链。

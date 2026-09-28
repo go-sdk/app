@@ -21,20 +21,21 @@ go get github.com/go-sdk/app
 运行参数通过一个内部配置结构及 `config.DecodeTo` 一次性加载。新增 app 级配置时只需扩展
 该结构、默认值和校验，不需要为每个字段维护独立的 `Get` 调用。
 
-| 配置键              | 默认值           | 说明                             |
-|---------------------|------------------|----------------------------------|
-| `app.name`          | 当前可执行文件名 | 日志和 Server 的服务标识         |
-| `database.driver`   | `postgres`       | `mysql`、`postgres` 或 `sqlite`  |
-| `database.dsn`      | 无               | 必填的原生驱动 DSN，不会写入日志 |
-| `redis.enabled`     | `false`          | 是否初始化进程级 Redis 客户端    |
-| `redis.mode`        | `standalone`     | `standalone` 或 `sentinel`       |
-| `redis.addresses`   | `127.0.0.1:6379` | Redis 或 Sentinel 地址列表       |
-| `redis.master_name` | 空               | Sentinel 模式的 master 名称      |
-| `redis.database`    | `0`              | Redis 数据库编号                 |
-| `server.address`    | `:8080`          | gRPC 与 HTTP 共用的监听地址      |
-| `server.reflection` | `false`          | 是否启用 gRPC Reflection         |
-| `auth.jwt_secret`   | 空               | 非空时启用标准 JWT 鉴权          |
-| `log.file.path`     | 空               | 非空时同时写入滚动日志文件       |
+| 配置键                 | 默认值           | 说明                             |
+|------------------------|------------------|----------------------------------|
+| `app.name`             | 当前可执行文件名 | 日志和 Server 的服务标识         |
+| `database.driver`      | `postgres`       | `mysql`、`postgres` 或 `sqlite`  |
+| `database.dsn`         | 无               | 必填的原生驱动 DSN，不会写入日志 |
+| `redis.enabled`        | `false`          | 是否初始化进程级 Redis 客户端    |
+| `redis.mode`           | `standalone`     | `standalone` 或 `sentinel`       |
+| `redis.addresses`      | `127.0.0.1:6379` | Redis 或 Sentinel 地址列表       |
+| `redis.master_name`    | 空               | Sentinel 模式的 master 名称      |
+| `redis.database`       | `0`              | Redis 数据库编号                 |
+| `server.address`       | `:8080`          | gRPC 与 HTTP 共用的监听地址      |
+| `server.reflection`    | `false`          | 是否启用 gRPC Reflection         |
+| `auth.jwt_secret`      | 空               | 非空时使用 HS256 启用 JWT 鉴权   |
+| `auth.jwt_private_key` | 空               | 非空时使用 Ed25519 启用 JWT 鉴权 |
+| `log.file.path`        | 空               | 非空时同时写入滚动日志文件       |
 
 连接池继续使用 `database` 模块已有的 `database.pool.*` 或
 `database.<driver>.pool.*` 配置，不在本模块重复定义。
@@ -43,6 +44,10 @@ Redis 可继续配置 `username`、`password`、`sentinel_username`、`sentinel_
 `client_name`、连接超时、连接池和 TLS 参数，字段与 `database/rdx.Config` 一致。配置中的地址和
 凭据不会写入初始化日志。启用后可通过 `app.Redis()` 获取客户端；初始化会先执行 `PING`，失败时
 阻止 Server 启动。Sentinel 锁仍需配合业务数据库 fencing token 使用。
+
+`auth.jwt_private_key` 接受 PEM 编码的 PKCS#8 Ed25519 私钥，非空时优先于
+`auth.jwt_secret`，Server 使用私钥派生的公钥验证 EdDSA token。未配置私钥时继续使用
+`auth.jwt_secret` 验证 HS256 token；两者都为空时不启用标准 JWT 鉴权。
 
 ## 最小入口
 
