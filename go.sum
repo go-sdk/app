@@ -54,8 +54,8 @@ github.com/go-sdk/database v1.2.1 h1:R80DGli9iu5CnDTN65xK4MB0aWnTfzMmZWaRU1y3GcY
 github.com/go-sdk/database v1.2.1/go.mod h1:I9m08dDiWot1upI+MY5UCtOViGmrrRCkBQLXS6cx7TU=
 github.com/go-sdk/server v1.5.0 h1:eVY4+PSz5fdoO+Pc9d3PZu0aQAf2fGUw9SL3daYO0QA=
 github.com/go-sdk/server v1.5.0/go.mod h1:8vCLzECX9GeoTBDAOazv6OMEBMKTWzoE0bhCPWVN0Bw=
-github.com/go-sdk/taskkit v1.1.0 h1:ziiwtfKRXF8x3hNgIegJzQNPwuYugiDSOkM/CzxRQFY=
-github.com/go-sdk/taskkit v1.1.0/go.mod h1:qE4wtufSnxO4eKeIjTlRhrRWJnObdHcweV9IgCgVDPc=
+github.com/go-sdk/taskkit v1.2.0 h1:L5i2FuxTyggsnr/oqWXBfc2rtGG31ywcfTSZxGQ833M=
+github.com/go-sdk/taskkit v1.2.0/go.mod h1:qE4wtufSnxO4eKeIjTlRhrRWJnObdHcweV9IgCgVDPc=
 github.com/go-sql-driver/mysql v1.10.1 h1:arlSnNLq6a5yxGxV7qg9lF4j0C+KwD6NbQyKr9QL6ME=
 github.com/go-sql-driver/mysql v1.10.1/go.mod h1:M+cqaI7+xxXGG9swrdeUIoPG3Y3KCkF0pZej+SK+nWk=
 github.com/go-viper/mapstructure/v2 v2.5.0 h1:vM5IJoUAy3d7zRSVtIwQgBj7BiWtMPfmPEgAXnvj1Ro=
