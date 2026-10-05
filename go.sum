@@ -48,8 +48,8 @@ github.com/go-playground/universal-translator v0.18.2 h1:LCsMLC9RzmbUMNUPVYD15dm
 github.com/go-playground/universal-translator v0.18.2/go.mod h1:67VZIMp5lQpDWlnStOct22q1bkdJGJqHghbOtmkawxk=
 github.com/go-playground/validator/v10 v10.30.5 h1:YyCXvVShZbs2Sm3Mb53eNOlhRXctSOzW5QJAouCTZL4=
 github.com/go-playground/validator/v10 v10.30.5/go.mod h1:wEqiaov48pXX1kjhc3Da8y0M0Dtg/BK7gurFBLgwFrQ=
-github.com/go-sdk/core v1.6.1 h1:eUzZMVrJvOtkaFVtGrB8siV6X3VyeN2NaZwP0wpjDOQ=
-github.com/go-sdk/core v1.6.1/go.mod h1:OXgs/9i8lumg0vy8Cuz929CD24XNT6uNt7drKeZI6cs=
+github.com/go-sdk/core v1.6.2 h1:pKnZClzSib7JwSLJwoozhzh3bnurdHmcqdiegb7PLp0=
+github.com/go-sdk/core v1.6.2/go.mod h1:OXgs/9i8lumg0vy8Cuz929CD24XNT6uNt7drKeZI6cs=
 github.com/go-sdk/database v1.2.1 h1:R80DGli9iu5CnDTN65xK4MB0aWnTfzMmZWaRU1y3GcY=
 github.com/go-sdk/database v1.2.1/go.mod h1:I9m08dDiWot1upI+MY5UCtOViGmrrRCkBQLXS6cx7TU=
 github.com/go-sdk/server v1.5.0 h1:eVY4+PSz5fdoO+Pc9d3PZu0aQAf2fGUw9SL3daYO0QA=

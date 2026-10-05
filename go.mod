@@ -3,7 +3,7 @@ module github.com/go-sdk/app
 go 1.27.0
 
 require (
-	github.com/go-sdk/core v1.6.1
+	github.com/go-sdk/core v1.6.2
 	github.com/go-sdk/database v1.2.1
 	github.com/go-sdk/server v1.5.0
 	github.com/go-sdk/taskkit v1.1.0
