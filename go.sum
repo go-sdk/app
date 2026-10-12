@@ -50,10 +50,10 @@ github.com/go-playground/validator/v10 v10.30.5 h1:YyCXvVShZbs2Sm3Mb53eNOlhRXctS
 github.com/go-playground/validator/v10 v10.30.5/go.mod h1:wEqiaov48pXX1kjhc3Da8y0M0Dtg/BK7gurFBLgwFrQ=
 github.com/go-sdk/core v1.6.6 h1:5uvBrDTC08YKiwNVdiaeHwls61aBXGivGBeZ/FjIVmg=
 github.com/go-sdk/core v1.6.6/go.mod h1:UfVxIv7VEiHWsRHtj5Ir5SmFE12LX6KveIsGUKcUTN0=
-github.com/go-sdk/database v1.2.3 h1:CAoKRcGoyQiqvsCorOe93ZwPwOdygnhRbBGZwIM+ciQ=
-github.com/go-sdk/database v1.2.3/go.mod h1:4NlfWCCDoOxi8fdUzRI8DMNYnWFhuAkTK9/iNrQ4GFI=
-github.com/go-sdk/server v1.5.2 h1:Y3GqLvlkkrkSVoSqiLbFsGLwUvraCAEvT5xIn4lRwr0=
-github.com/go-sdk/server v1.5.2/go.mod h1:HsM9mVZeSPo/BSF5oWIqXm/JzOhPJH50ieJq+qGxWFs=
+github.com/go-sdk/database v1.2.4 h1:rgVRp8s4sJ1x/oRLiDVlseaxUM7BcxOK6Ra2f98mZDc=
+github.com/go-sdk/database v1.2.4/go.mod h1:4NlfWCCDoOxi8fdUzRI8DMNYnWFhuAkTK9/iNrQ4GFI=
+github.com/go-sdk/server v1.5.4 h1:RXdK0EsXnz9t5J9c5NogWV79oQoLbyScfWZW56cFdis=
+github.com/go-sdk/server v1.5.4/go.mod h1:HsM9mVZeSPo/BSF5oWIqXm/JzOhPJH50ieJq+qGxWFs=
 github.com/go-sdk/taskkit v1.2.2 h1:BToh7OU09+iVTjGO+CEp9iskEFGWbSHshcPUa97FNWI=
 github.com/go-sdk/taskkit v1.2.2/go.mod h1:GutNpNDX3rZYYIKNXncecFLX7hSOmWXhm1L/yOYHs/w=
 github.com/go-sql-driver/mysql v1.10.1 h1:arlSnNLq6a5yxGxV7qg9lF4j0C+KwD6NbQyKr9QL6ME=

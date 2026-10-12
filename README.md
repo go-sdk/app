@@ -146,6 +146,14 @@ func init() {
 }
 ```
 
+`RegisterRoute` 的第四个参数为 `opts ...standard.RouteOption`。选项在登记和冻结时复制，并透传给 `Server.HandlePath`；解析失败会阻止服务启动。不传选项时继续遵循默认 JWT 配置，Webhook 等自行鉴权的接口可以显式声明：
+
+```go
+app.RegisterRoute(http.MethodPost, "/webhook", webhook, standard.WithRouteSkipAuth())
+```
+
+单路由选项及鉴权边界由 [server 文档](https://github.com/go-sdk/server#额外-http-接口) 定义。原有三参数直接调用保持兼容；将 `RegisterRoute` 赋给固定三参数函数类型的代码需要调整。
+
 普通 JSON API 不应绕过 Proto 和生成的 Gateway 绑定。
 
 ## 定时任务

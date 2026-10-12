@@ -63,7 +63,7 @@ func Run() error {
 		return shutdown(errx.Wrap(err, "initialize server"))
 	}
 	for _, item := range registered.routes {
-		if err = server.HandlePath(item.method, item.path, item.handler); err != nil {
+		if err = server.HandlePath(item.method, item.path, item.handler, item.options...); err != nil {
 			return shutdown(errx.Wrapf(err, "register route %s %s", item.method, item.path))
 		}
 	}

@@ -29,6 +29,7 @@ type route struct {
 	method  string
 	path    string
 	handler standard.HandlerFunc
+	options []standard.RouteOption
 }
 
 type registeredTask struct {
@@ -110,9 +111,14 @@ func RegisterGateway(functions ...standard.GatewayRegisterFunc) {
 }
 
 // RegisterRoute 登记不适合 Proto JSON 映射的额外 HTTP 接口。
-func RegisterRoute(method, path string, handler standard.HandlerFunc) {
+func RegisterRoute(method, path string, handler standard.HandlerFunc, opts ...standard.RouteOption) {
 	registry.withMutable(func() {
-		registry.routes = append(registry.routes, route{method: method, path: path, handler: handler})
+		registry.routes = append(registry.routes, route{
+			method:  method,
+			path:    path,
+			handler: handler,
+			options: slices.Clone(opts),
+		})
 	})
 }
 
@@ -165,6 +171,10 @@ func (r *registrations) freeze() registrationSnapshot {
 		osx.Panic("app: Run can only be called once")
 	}
 	r.frozen = true
+	routes := slices.Clone(r.routes)
+	for index := range routes {
+		routes[index].options = slices.Clone(routes[index].options)
+	}
 	tasks := slices.Clone(r.tasks)
 	for index := range tasks {
 		tasks[index].options = slices.Clone(tasks[index].options)
@@ -175,7 +185,7 @@ func (r *registrations) freeze() registrationSnapshot {
 		bootstraps:            slices.Clone(r.bootstraps),
 		grpcRegisters:         slices.Clone(r.grpcRegisters),
 		gatewayRegisters:      slices.Clone(r.gatewayRegisters),
-		routes:                slices.Clone(r.routes),
+		routes:                routes,
 		serverOptions:         slices.Clone(r.serverOptions),
 		serverOptionFactories: slices.Clone(r.serverOptionFactories),
 		tasks:                 tasks,
