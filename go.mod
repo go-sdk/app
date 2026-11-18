@@ -3,16 +3,16 @@ module github.com/go-sdk/app
 go 1.27.0
 
 require (
-	github.com/go-sdk/core v1.6.8
-	github.com/go-sdk/database v1.2.6
-	github.com/go-sdk/server v1.5.5
-	github.com/go-sdk/taskkit v1.2.3
+	github.com/go-sdk/core v1.6.9
+	github.com/go-sdk/database v1.2.7
+	github.com/go-sdk/server v1.5.6
+	github.com/go-sdk/taskkit v1.2.4
 )
 
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.12-20260825204119-511051f7f437.2 // indirect
 	buf.build/go/protovalidate v1.4.0 // indirect
-	cel.dev/cel-go v0.33.2 // indirect
+	cel.dev/cel-go v0.33.4 // indirect
 	cel.dev/expr v0.26.0 // indirect
 	github.com/BurntSushi/toml v1.6.0 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
@@ -32,7 +32,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.4 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.33.0 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.34.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/jonboulle/clockwork v0.5.0 // indirect
@@ -51,24 +51,24 @@ require (
 	github.com/samber/slog-zerolog/v2 v2.9.2 // indirect
 	github.com/sony/sonyflake/v2 v2.2.0 // indirect
 	github.com/spf13/cast v1.10.0 // indirect
-	github.com/tidwall/gjson v1.20.2 // indirect
+	github.com/tidwall/gjson v1.20.4 // indirect
 	github.com/tidwall/match v1.2.0 // indirect
 	github.com/tidwall/pretty v1.3.0 // indirect
 	go.uber.org/atomic v1.12.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.6 // indirect
 	golang.org/x/crypto v0.59.0 // indirect
-	golang.org/x/exp v0.0.0-20261109185158-a52e3aef5920 // indirect
-	golang.org/x/net v0.62.0 // indirect
+	golang.org/x/exp v0.0.0-20261117202309-7a49493bfd90 // indirect
+	golang.org/x/net v0.63.0 // indirect
 	golang.org/x/sys v0.50.0 // indirect
 	golang.org/x/text v0.44.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20261110000943-09e21b237f2c // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20261110000943-09e21b237f2c // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20261116203732-fd2c7689a808 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20261116203732-fd2c7689a808 // indirect
 	google.golang.org/grpc v1.85.0 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gorm.io/gorm v1.31.2 // indirect
 	modernc.org/libc v1.80.1 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
-	modernc.org/memory v1.12.1 // indirect
+	modernc.org/memory v1.13.0 // indirect
 	modernc.org/sqlite v1.62.0 // indirect
 )
